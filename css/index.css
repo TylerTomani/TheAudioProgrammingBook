@@ -1,0 +1,89 @@
+*{
+    margin: 0;
+    background-color: lemonchiffon;
+    background-color: lightcyan;
+}
+header{
+    display: flex;
+    flex-direction: 1 1 49%;
+    justify-content: space-around;
+}
+.video-container {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    /* height: 25vh; */
+}
+.video-container > .play-btn {
+    width: 50%;
+    margin: 0 auto;
+}
+.video-container > video{
+    width: 100%;
+}
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+}
+.flex-container > .flex-item {
+    flex-basis: 50%;
+    height: 250px;
+    display: flex;
+}
+.flex-col > p {
+    width: 300px;
+    margin: 0 auto;
+}
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2.5%;
+    /* white-space: nowrap; */
+}
+.flex-col > a {
+    align-self: center;
+}
+.flex-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.img-container{
+    margin: 1rem;
+    border: 1px solid red;
+}
+.img-container > img{
+    width: 250px;
+    height: 200px;
+}
+.flex-row{
+    flex-basis: 50%;
+    width: 100%;
+    padding: 1rem;
+}
+.example {
+
+    border: 1px solid black;
+}
+.example-page {
+    font-size: 1.5rem;
+}
+
+
+
+.video-enlarge {
+    position: absolute;
+    border: 10px solid blue;
+    width: 90%;
+    height: 90%;
+    background-color: white;
+}
+.background-grey {
+    background-color: grey;
+}
+
+/* colors */
+.r {
+    color: red;
+}

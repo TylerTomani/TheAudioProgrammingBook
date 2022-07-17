@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pg150-expdecay</title>
+    <link rel="stylesheet" href="../../css/lesson.css">
+    <!-- <?xml version="1.0" encoding="UTF-8" standalone="no"?> -->
+</head>
+<body>
+    <a tabindex="1" href="../../index.html">home</a>
+    <h1>pg150-expdecay</h1>
+<div class="flex-container">
+    <div class="flex-item">
+        <p>
+            <code><span class="lg">ARG_NARGS</span></code> not working, line 8, just do &lt; 3.
+        </p>
+        <pre tabindex="2">
+     1	#include&lt;stdio.h>
+     2	#include&lt;stdlib.h>
+     3	#include&lt;math.h>
+          
+     4	int main(int argc, char**argv){
+     5	    int i, nsteps;
+     6	    double step,x,a,T,k;
+     7	    double dur;
+                <span class="line-through">if(argc != <span class="lg">ARG_NARGS</span>)</span>{
+     8	    if(argc &lt; 3){
+     9	        printf("usuage: expdecay dur T step\n");
+    10	        return 1;
+    11	    }
+    12	    dur = atof(argv[1]);
+    13	    T = atof(argv[2]);
+    14	    nsteps = atof(argv[3]);
+          
+    15	    k = dur/nsteps; /* the constant time increment */
+    16	    a = exp(-k/T); /* calc the constant ratio value */
+    17	    x = 1.0; /* starting value for the decay */
+          
+    18	    step = 0.0;
+    19	    for(i = 0; i &lt; nsteps; i++){
+    20	        printf("%.4lf\t%.8lf\n",step,x);
+    21	        x = a * x;
+    22	        step += k;
+    23	    }
+    24	    return 0;
+          
+          
+    25	}
+    
+        </pre>
+    </div>
+    <div class="flex-container">
+        <div class="flex-col">
+            <p>
+                Good arguement for expdecay
+            </p>
+            <code class="cmd-line">./expdecay 1 .5 200</code>
+            <img tabindex="2" src="images/ex1ExpDecayImg.png" alt="">
+            
+        </div>
+
+    </div>
+</div>
+<hr>
+<p>Add examples of expondential decay function equations</p>
+    
+<footer tabindex="2"></footer>
+</body>
+</html>

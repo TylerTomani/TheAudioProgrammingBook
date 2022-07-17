@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pg143-breakpoint</title>
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+<body>
+    <a tabindex="1" href="../../index.html">home</a>
+    <p>
+        <span class="hlightY">At line 36</span>, NPOINT is never defined,
+        <br>This example is not well explained or demonstrated in the book.
+        <br>After learning more about C, go back and fix this and maybe tell Dr. B,
+        this example sucks
+    </p>    
+    <h1>pg143-breakpoints</h1>
+    <h2>maxpoints - pg 138</h2>
+    <pre tabindex="2">
+    BREAKPOINT maxpoint(const BREAKPOINT* points, long npoints);
+    /* input: points = array of BREAKPOINTS,
+    npoints gives the legnth of the array */
+
+    BREAKPOINT maxpoint(const BREAKPOINT* points, long npoints){
+        int i;
+        BREAKPOINT point;
+        point.time = points[0].time;
+        point.value = points[0].value;
+        
+        for(i = 0; i &lt; npoints; i++){
+            if(point.value &lt; points[i].value){
+                point.value = points[i].value;
+                point.time = points[i].time;
+            }
+        }
+        return point;
+    }
+
+
+    </pre>
+    <h2>Breakpoints - pg 144</h2>
+    <pre tabindex="2">
+     1	BREAKPOINT* get_breakpoints(FILE* fp, long* psize){
+     2	    int got;
+     3	    long npoints = 0, size = 64;
+     4	    double lasttime = 0.0;
+     5	    BREAKPOINT* points = NULL; // Am i declaring the function within itself??
+     6	    char line[80];
+      	
+     7	    if(fp == NULL){
+     8	        return NULL:
+     9	    }
+    10	    points = (BREAKPOINT*)malloc(sizeof(BREAKPOINT) * size);
+    11	        if(points == NULL){
+    12	            return NULL;
+    13	        }
+      	
+    14	    while(fgets(line,80,fp)){
+    15	        got = sscanf(line, "%lf%lf",
+    16	            &points[npoints].time,&points[npoints].value);
+    17	        if(got < 0){
+    18	            continue;
+    19	        }
+    20	        if(got == 0){
+    21	            printf("Line %d has non-numeric data\n",npoints + 1);
+    22	            break;
+    23	        }
+    24	        if(got == 1){
+    25	            printf("Imcomplete breakpoint found at point %d\n",npoints+1);
+    26	            break;
+    27	        }
+    28	        if(points[npoints].time < lasttime){
+    29	            printf("data error at point %d: time not increasing",npoints + 1);
+    30	            break;
+    31	        }
+    32	    }
+    33	    lasttime = points[npoints].time;
+    34	    if(++npoints == size){
+    35	        BREAKPOINT* tmp;
+    <span class="hlightY">36	        size += NPOINTS; // THERE is NO variable declared NPOINT, WHY ??</span>
+    37	        tmp = (BREAKPOINT*)realloc(points,sizeof(BREAKPOINT) * size);
+    38	        if(tmp == NULL){
+    39	            npoints = 0;
+    40	            free(points);
+    41	            points = NULL;
+    42	            break;
+    43	        }
+    44	        points = tmp;
+    45	    }
+    46	    if(npoints){
+    47	        *psize = npoints;
+    48	    }
+    49	    return points
+    50	}
+    </pre>
+    <h2>main()</h2>
+    <pre tabindex="2">
+int main(int argc, char* argv[]){
+    long size;
+    double dur;
+    BREAKPOINT point, *points;
+    FILE* fp;
+    printf("breakdur: find duration of breakpoint file\n");
+    if(argc &lt 2){
+        printf("usage: breakdur infile.txt \n");
+        return 0;
+    }
+    fp = fopen(argv[1],"r");
+    if(fp == NULL){
+        return 0;
+    }
+    size = 0;
+    points = get_breakpoints(fp, &size);
+    if(points == NULL){
+        printf("No breakpoints read.\n");
+        fclose(fp);
+        return 1;
+    }
+    if(size &lt; 2){
+        printf("Error: at least two breakpoints required \n");
+        free(points);
+        fclose(fp);
+        return 1;
+    }
+    if(points[0].time != 0.0){
+        printf("error in breakpoint data: first time must be 0.0\n");
+        free(points);
+        fclose(fp);
+        return 1;
+    }
+    printf("read %d breakpoints\n", size);
+    dur = points[size -1].time;
+    printf("duration: %f seconds\n",dur);
+    point = maxpoint(points,size);
+    printf("maximum value: %f at %f seconds\n",point.value,point.time);
+    free(points);
+    fclose(fp);
+    return 0;
+}
+
+
+
+
+    </pre>
+    
+</body>
+</html>
